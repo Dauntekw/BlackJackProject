@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>BlackJack</title>
+    <script type="text/javascript" src="gameLogic.js"></script>
+    <style>
+        body {
+            background-color: #000;
+        }
+
+        #gameWindow {
+            position: absolute;
+            z-index: 9;
+            display: block;
+            background-color: #FFF;
+            border: 1px solid;
+        }
+
+        #gameWindowHeader {
+            text-align: center;
+            padding: 10px;
+            cursor: move;
+            z-index: 10;
+            background-color: #777;
+            color: #fff;
+        }
+    </style>
+</head>
+<body onload="init()">
+    <div id="gameWindow">
+        <div id="gameWindowHeader">Black Jack</div>
+        <div style="position: relative; width: 600px; height: 375px; top: 50%; display: inline-block; text-align: left; align-content: center; padding: 10px;">
+            <div id="Bet">
+                <label for="PlayerInput">Bet &#36;</label>
+                <input type="number" id="PlayerInput" min="5" step="5" value="20" />
+                <button id="PlayButton" onclick="storePlayerData()">Play</button>
+                <button id="ResetButton" onclick="reset()" hidden>Take out a loan (Reset)</button>
+            </div>
+            <div class="stats" style="height: 250px;">
+                <p id="p01">Player Cash: </p>
+                <p id="message"></p>
+                <p id="pHand"></p>
+                <p id="pValue"></p>
+                <p id="sHand"></p>
+                <p id="sValue"></p>
+                <p id="dHand"></p>
+                <p id="dValue"></p>
+            </div>
+            <div id="Actions">
+                <button onclick="endRound()">Stand</button>
+                <button onclick="hit()">Hit</button>
+                <button id="sh" onclick="splitHit()" hidden>Hit: Split Hand</button>
+                <button id="sp" onclick="split()">Split</button>
+                <button id="dd" onclick="doubleDown()">Double Down</button>
+                <button onclick="surrender()">Surrender</button>
+                <button id="cheatFace" onclick="cheatFace()">Cheat: Face Cards ($2500)</button>
+            </div>
+            <div>
+                <p id="cheatMessage"></p>
+            </div>
+        </div>
+    </div>
+    <script>
+        //Draggable window code from w3Schools: https://www.w3schools.com/howto/howto_js_draggable.asp
+        // Make the DIV element draggable:
+        dragElement(document.getElementById("gameWindow"));
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "Header")) {
+                // if present, the header is where you move the DIV from:
+                document.getElementById(elmnt.id + "Header").onmousedown = dragMouseDown;
+            } else {
+                // otherwise, move the DIV from anywhere inside the DIV:
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // get the mouse cursor position at startup:
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                // call a function whenever the cursor moves:
+                document.onmousemove = elementDrag;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                // calculate the new cursor position:
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                // set the element's new position:
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                // stop moving when mouse button is released:
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+    </script>
+</body>
+</html>
