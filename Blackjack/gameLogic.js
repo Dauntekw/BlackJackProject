@@ -399,7 +399,7 @@ function endRound() {
   updateText("dValue", "Value = " + dT);
   updateDivVisibility("Actions", "none");
 
-  if (pT > dT && pT <= 21 || dT > 21) {
+  if (pT > dT && pT <= 21 || dT > 21 || pT == 21 && playerHand.length == 2) {
     if (playerHand.length == 2 && pT == 21)
       mult += 1.5;
 
